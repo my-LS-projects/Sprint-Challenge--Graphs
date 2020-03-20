@@ -16,14 +16,15 @@ class Graph:
         Add a vertex to the graph.
         """
         if vertex_id not in self.vertices:
-            self.vertices[vertex_id] = set()
+            # values will point to room id ints
+            self.vertices[vertex_id] = {"n": "?", "s": "?", "e": "?", "w": "?"}
 
-    def add_edge(self, v1, v2):
+    def add_edge(self, vertex, direction, room_id):
         """
         Add a directed edge to the graph.
         """
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
+            self.vertices[vertex][direction] = room_id
         else:
             raise ValueError("ERROR: Vertex does not exist")
 
@@ -199,70 +200,70 @@ class Graph:
         return None
 
 
-if __name__ == "__main__":
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
+# if __name__ == "__main__":
+#     graph = Graph()  # Instantiate your graph
+#     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+#     graph.add_vertex(1)
+#     graph.add_vertex(2)
+#     graph.add_vertex(3)
+#     graph.add_vertex(4)
+#     graph.add_vertex(5)
+#     graph.add_vertex(6)
+#     graph.add_vertex(7)
+#     graph.add_edge(5, 3)
+#     graph.add_edge(6, 3)
+#     graph.add_edge(7, 1)
+#     graph.add_edge(4, 7)
+#     graph.add_edge(1, 2)
+#     graph.add_edge(7, 6)
+#     graph.add_edge(2, 4)
+#     graph.add_edge(3, 5)
+#     graph.add_edge(2, 3)
+#     graph.add_edge(4, 6)
 
-    """
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    """
-    print(graph.vertices)
+#     """
+#     Should print:
+#         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+#     """
+#     print(graph.vertices)
 
-    """
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    """
-    graph.bft(1)
+#     """
+#     Valid BFT paths:
+#         1, 2, 3, 4, 5, 6, 7
+#         1, 2, 3, 4, 5, 7, 6
+#         1, 2, 3, 4, 6, 7, 5
+#         1, 2, 3, 4, 6, 5, 7
+#         1, 2, 3, 4, 7, 6, 5
+#         1, 2, 3, 4, 7, 5, 6
+#         1, 2, 4, 3, 5, 6, 7
+#         1, 2, 4, 3, 5, 7, 6
+#         1, 2, 4, 3, 6, 7, 5
+#         1, 2, 4, 3, 6, 5, 7
+#         1, 2, 4, 3, 7, 6, 5
+#         1, 2, 4, 3, 7, 5, 6
+#     """
+#     graph.bft(1)
 
-    """
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    """
-    graph.dft(1)
-    graph.dft_recursive(1)
+#     """
+#     Valid DFT paths:
+#         1, 2, 3, 5, 4, 6, 7
+#         1, 2, 3, 5, 4, 7, 6
+#         1, 2, 4, 7, 6, 3, 5
+#         1, 2, 4, 6, 3, 5, 7
+#     """
+#     graph.dft(1)
+#     graph.dft_recursive(1)
 
-    """
-    Valid BFS path:
-        [1, 2, 4, 6]
-    """
-    print(graph.bfs(1, 6))
+#     """
+#     Valid BFS path:
+#         [1, 2, 4, 6]
+#     """
+#     print(graph.bfs(1, 6))
 
-    """
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    """
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+#     """
+#     Valid DFS paths:
+#         [1, 2, 4, 6]
+#         [1, 2, 4, 7, 6]
+#     """
+#     print(graph.dfs(1, 6))
+#     print(graph.dfs_recursive(1, 6))
